@@ -1,10 +1,8 @@
-# Reconstructables.jl --- helper macros for nested immutable structs
+# Reconstructables.jl --- Tools for easy "modification" of nested immutable structs
 
-[![Build Status](https://travis-ci.org/tkf/Reconstructables.jl.svg?branch=master)](https://travis-ci.org/tkf/Reconstructables.jl)
-
-[![Coverage Status](https://coveralls.io/repos/tkf/Reconstructables.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/tkf/Reconstructables.jl?branch=master)
-
-[![codecov.io](http://codecov.io/github/tkf/Reconstructables.jl/coverage.svg?branch=master)](http://codecov.io/github/tkf/Reconstructables.jl?branch=master)
+[![Build Status][travis-img]](travis-url)
+[![Coverage Status][coveralls-img]](coveralls-url)
+[![codecov.io][codecov-img]](codecov-url)
 
 
 Reconstructables.jl provides helper macros to work with immutable
@@ -45,7 +43,7 @@ arguments:
 @test A(1) == A(x=1)
 ```
 
-**Important** Note that the name of arguments of the constructor must
+**[Important]** Note that the name of arguments of the constructor must
 be exactly same as the name of struct fields for it to work with other
 tools in Reconstructables.jl.
 
@@ -124,8 +122,8 @@ b2 = recon(b1, x=2.0)
 ## Parameters.jl
 
 [Parameters.jl](https://github.com/mauro3/Parameters.jl) provides a
-very convenient way of creating keyword-only struct constructor.  The
-structs created by `Parameters.@with_kw` works perfectly well with
+very convenient way of defining keyword-only struct constructor.  The
+structs created by `Parameters.@with_kw` work perfectly well with
 `recon` and `@recon`:
 
 ```julia
@@ -141,3 +139,11 @@ c1 = C()
 c2 = @recon c1.b.x = 2.0
 @test c2.b.x == 2.0
 ```
+
+
+[travis-img]: https://travis-ci.org/tkf/Reconstructables.jl.svg?branch=master
+[travis-url]: https://travis-ci.org/tkf/Reconstructables.jl
+[coveralls-img]: https://coveralls.io/repos/tkf/Reconstructables.jl/badge.svg?branch=master&service=github
+[coveralls-url]: https://coveralls.io/github/tkf/Reconstructables.jl?branch=master
+[codecov-img]: http://codecov.io/github/tkf/Reconstructables.jl/coverage.svg?branch=master
+[codecov-url]: http://codecov.io/github/tkf/Reconstructables.jl?branch=master
