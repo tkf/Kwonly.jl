@@ -1,3 +1,5 @@
+module TestAddKwonly
+using Base.Test
 using Reconstructables: @add_kwonly, add_kwonly
 
 @add_kwonly function f(a, b; c=3, d=4)
@@ -15,3 +17,4 @@ end
 @test h() == (3, 4)
 
 @test_throws ErrorException add_kwonly(:(i(c=3, d=4) = (c, d)))
+end

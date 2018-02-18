@@ -1,3 +1,5 @@
+module TestSetterMacro
+using Base.Test
 using Reconstructables: @add_kwonly, @recon
 
 struct A
@@ -25,3 +27,4 @@ end
 @test new.x.x.x == 10
 @test new.x.y.y == 20
 """
+end
