@@ -1,3 +1,9 @@
+if VERSION < v"0.7-"
+    # dummy type to be ignored in 0.6
+    struct LineNumberNode end
+end
+
+
 """
     @recon assignment_expr
 
@@ -37,6 +43,7 @@ end
 statements(ex::Expr) = statements(Val{ex.head}, ex)
 statements(::Type{Val{:block}}, ex) = vcat(map(statements, ex.args)...)
 statements(::Type{Val{:line}}, _) = Expr[]
+statements(::LineNumberNode) = Expr[]
 statements(::Type{<: Val}, ex) = [ex]
 statements(ex) = ex
 
