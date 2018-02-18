@@ -18,7 +18,7 @@ It works even when `old`, `x` and `y` are all immutable, provided that
 their constructor have keyword-only version (see below).
 
 
-## Usage
+## Basic Usage
 
 First tool Reconstructables.jl provides is `@add_kwonly`.  It creates
 a keyword-only version of the given function.  Example:
@@ -73,14 +73,50 @@ new = @recon old.x.x.x = 2
 @test new.x.x.x == 2
 ```
 
+Here, `@recon old.x.x.x = 2` is just a syntactic sugar of
+`recon(old; x=recon(old.x; x=recon(old.x.x; x=2)))`.
+
 Macro `@recon` also supports "batch update":
 
 ```julia
-old = A(A(A(1), A(2, 3)))
+old = A(A(A(5), A(6, 7)))
 new = @recon begin
     old.x.x.x = 10
     old.x.y.y = 20
 end
 @test new.x.x.x == 10
 @test new.x.y.y == 20
+@test new.x.y.x == old.x.y.x == 6
+```
+
+## How to use type parameters
+
+Consider inner constructor with type parameter:
+
+```julia
+struct B{T, X, Y}
+    x::X
+    y::Y
+    @add_kwonly B{T}(x::X, y::Y = 2) where {T, X, Y} = new{T, X, Y}(x, y)
+end
+```
+
+This struct does not work well with `recon` because it does not know
+how to fill the type parameter.  In this case, you need to extend
+`Reconstructables.constructor_of` to map the type of the struct to
+appropriate type with the keyword-only constructor.
+
+```julia
+import Reconstructables
+Reconstructables.constructor_of(::Type{<: B{T}}) where T = B{T}
+```
+
+It tells `recon` to "drop" type parameters `X` and `Y`, but not `T`,
+since otherwise the keyword-only constructor cannot be called.
+
+```julia
+b1 = B{true}(1)
+b2 = recon(b1, x=2.0)
+@test b2.x == 2.0
+@test b2 isa B{true}
 ```
