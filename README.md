@@ -120,3 +120,24 @@ b2 = recon(b1, x=2.0)
 @test b2.x == 2.0
 @test b2 isa B{true}
 ```
+
+## Parameters.jl
+
+[Parameters.jl](https://github.com/mauro3/Parameters.jl) provides a
+very convenient way of creating keyword-only struct constructor.  The
+structs created by `Parameters.@with_kw` works perfectly well with
+`recon` and `@recon`:
+
+```julia
+using Parameters: @with_kw
+
+@with_kw struct C
+    a::A = A(0)
+    b::B{false} = B{false}(1)
+    x::Int = 6
+end
+
+c1 = C()
+c2 = @recon c1.b.x = 2.0
+@test c2.b.x == 2.0
+```
