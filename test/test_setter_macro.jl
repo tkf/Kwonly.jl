@@ -25,6 +25,32 @@ end
 @test new.x.x.x == 10
 @test new.x.y.y == 20
 
+new = @recon begin
+    old.x.x.x = 10
+    old.x.x.y = 20
+    old.x.y = 30
+    old.y = 40
+end
+@test new.x.x.x == 10
+@test new.x.x.y == 20
+@test new.x.y == 30
+@test new.y == 40
+
+f(x) = 2x
+
+new = @recon begin
+    old.x.x.x = f(old.x.x.x)
+    old.x.x.y = 1 * 20
+    old.x.y.x = let x = old.x.y.x
+        10x
+    end
+end
+@test old.x.x.x == 1
+@test new.x.x.x == 2
+@test new.x.x.y == 20
+@test old.x.y.x == 2
+@test new.x.y.x == 20
+
 __not_implemented__ = """
 old = B(B(B(1), B(2, 3)))
 new = @recon let f = old.x.x,
