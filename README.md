@@ -5,10 +5,10 @@
 [![codecov.io][codecov-img]](codecov-url)
 
 
-Reconstructables.jl provides helper macros to work with immutable
-structs in Julia.  For example, using `@recon` macro, you can
-reconstruct a new struct where the nested field `.x.y.z` is modified
-from the one in `old`:
+Reconstructables.jl provides helper functions and macros to work with
+immutable structs in Julia.  For example, using `@recon` macro, you
+can reconstruct a new struct where the nested field `.x.y.z` is
+modified from the one in `old` by:
 
     new = @recon old.x.y.z = 3
 
