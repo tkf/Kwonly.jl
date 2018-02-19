@@ -16,6 +16,9 @@ end
 @add_kwonly h(; c=3, d=4) = (c, d)
 @test h() == (3, 4)
 
+@add_kwonly with_kwargs(a; b=2, kwargs...) = (a, b, kwargs)
+@test with_kwargs(a=10, x=20) == (10, 2, [(:x, 20)])
+
 
 macro test_error(testee, tester)
     quote
