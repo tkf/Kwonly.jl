@@ -4,7 +4,7 @@ try
 catch
     using Base.Test
 end
-using Reconstructables: @add_kwonly, @recon
+using Reconstructables: @add_kwonly, @recon, statements
 include("utils.jl")
 
 struct A
@@ -67,14 +67,11 @@ end
 @test new.x.y.y == 20
 """
 
-invalid_expressions = quote
+invalid_expression_list = statements(quote
     old{:spam}.x.x.x = 10
     old.x{:spam}.x.x = 10
     old.x.x.x{:spam} = 10
-end
-invalid_expression_list = filter(
-    ex -> (ex isa Expr && ex.head != :line),
-    invalid_expressions.args)
+end)
 append!(invalid_expression_list,
         map(ex -> quote $ex end, invalid_expression_list))
 
