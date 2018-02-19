@@ -44,4 +44,10 @@ end (err) -> begin
                    "add_only does not work with expression if")
 end
 
+let io = IOBuffer()
+    showerror(io, UndefKeywordError(:X))
+    msg = String(take!(copy(io)))
+    @test contains(msg, "UndefKeywordError: keyword argument X not assigned")
+end
+
 end

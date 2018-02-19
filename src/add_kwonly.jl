@@ -6,7 +6,7 @@ catch
     struct UndefKeywordError <: Exception
         var::Symbol
     end
-    showerror(io::IO, ex::UndefKeywordError) =
+    Base.showerror(io::IO, ex::UndefKeywordError) =
         print(io, "UndefKeywordError: keyword argument $(ex.var) not assigned")
 end
 
