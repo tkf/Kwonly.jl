@@ -125,4 +125,13 @@ end (err) -> begin
     @test contains(err.msg, "Trying to modify multiple structs:")
 end
 
+@test_error begin
+    @eval @recon begin
+        1 + 1
+    end
+end (err) -> begin
+    @test err isa ErrorException
+    @test contains(err.msg, "All statements in a block must be assignments.")
+end
+
 end
