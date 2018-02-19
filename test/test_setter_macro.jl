@@ -7,6 +7,37 @@ end
 using Reconstructables: @add_kwonly, @recon, statements
 include("utils.jl")
 
+
+@testset "statements(ex::Expr)" begin
+    let actual = statements(quote a; b; c; end)
+        desired = [:a, :b, :c]
+        @test actual == desired
+    end
+
+    let actual = statements(quote
+                            a = 1
+                            b = 2
+                            c = 3
+                            end)
+        desired = [:(a = 1), :(b = 2), :(c = 3)]
+        @test actual == desired
+    end
+
+    let actual = statements(quote
+                            a
+                            begin
+                                b
+                                begin
+                                    c
+                                end
+                            end
+                            end)
+        desired = [:a, :b, :c]
+        @test actual == desired
+    end
+end
+
+
 struct A
     x
     @add_kwonly A(x) = new(x)
