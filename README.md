@@ -7,8 +7,8 @@
 
 Reconstructables.jl provides helper functions and macros to work with
 immutable structs in Julia.  For example, using `@recon` macro, you
-can reconstruct a new struct where the nested field `.x.y.z` is
-modified from the one in `old` by:
+can reconstruct a new struct with the nested field `.x.y.z` modified
+from the one in `old` by:
 
   ```julia
   new = @recon old.x.y.z = 3
@@ -20,8 +20,8 @@ their constructor have keyword-only version (see below).
 
 ## Basic Usage
 
-First tool Reconstructables.jl provides is `@add_kwonly`.  It creates
-a keyword-only version of the given function.  Example:
+The first tool Reconstructables.jl provides is `@add_kwonly`.  It
+creates a keyword-only version of the given function.  Example:
 
 ```julia
 using Reconstructables: @add_kwonly
@@ -33,7 +33,8 @@ struct A
 end
 ```
 
-This macro add keyword-only constructor by expands `A(x) = new(x)` into:
+This macro add a keyword-only constructor by expanding `A(x) = new(x)`
+into:
 
   ```julia
   A(x, y) = new(x, y)                                      # original
@@ -51,8 +52,8 @@ arguments:
 be exactly same as the name of struct fields for it to work with other
 tools in Reconstructables.jl.
 
-When struct constructor has keyword-only version, the struct can be
-"modified" by `recon`:
+When the struct constructor has the keyword-only version, the struct
+can be "modified" by `recon`:
 
 ```julia
 using Reconstructables: recon
@@ -65,7 +66,7 @@ a2 = recon(a1, x=2)
 Here `recon(a1, x=2)` is equivalent to `A(x=2, y=a1.y)`.
 
 `recon` is handy for shallow structs but it's hard to use when
-modifying a nested field.  Macro `@recon` can be used in this case:
+modifying a nested field.  Macro `@recon` can be useful in such cases:
 
 ```julia
 using Reconstructables: @recon
