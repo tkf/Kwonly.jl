@@ -4,7 +4,7 @@ try
 catch
     using Base.Test
 end
-using Reconstructables: @add_kwonly, add_kwonly, UndefKeywordError
+using Reconstructables: Reconstructables, @add_kwonly, add_kwonly
 include("utils.jl")
 
 @add_kwonly function f(a, b; c=3, d=4)
@@ -12,7 +12,7 @@ include("utils.jl")
 end
 @test f(1, 2) == (1, 2, 3, 4)
 @test f(a=1, b=2) == (1, 2, 3, 4)
-@test_throws UndefKeywordError f()
+@test_throws Reconstructables.UndefKeywordError f()
 
 @add_kwonly g(a, b; c=3, d=4) = (a, b, c, d)
 @test g(1, 2) == (1, 2, 3, 4)
@@ -65,7 +65,7 @@ end (err) -> begin
 end
 
 let io = IOBuffer()
-    showerror(io, UndefKeywordError(:X))
+    showerror(io, Reconstructables.UndefKeywordError(:X))
     msg = String(take!(copy(io)))
     @test contains(msg, "UndefKeywordError: keyword argument X not assigned")
 end

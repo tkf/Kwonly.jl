@@ -96,7 +96,7 @@ function add_kwonly(::Type{Val{:call}}, default_call::Expr)
     end
 
     kwonly_kwargs = Expr(:parameters, [
-        Expr(:kw, pa, :(throw(UndefKeywordError($(QuoteNode(pa))))))
+        Expr(:kw, pa, :(throw($UndefKeywordError($(QuoteNode(pa))))))
         for pa in required
     ]..., optional..., default_kwargs...)
     kwonly_call = Expr(:call, funcname, kwonly_kwargs)
