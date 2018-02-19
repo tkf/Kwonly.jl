@@ -1,5 +1,9 @@
 module TestReconstructor
-using Base.Test
+try
+    using Test
+catch
+    using Base.Test
+end
 using Reconstructables: @add_kwonly, recon, constructor_of
 
 @test constructor_of(Vector) == Array

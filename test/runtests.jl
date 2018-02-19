@@ -1,4 +1,8 @@
-using Base.Test
+try
+    using Test
+catch
+    using Base.Test
+end
 
 let in_code = false, code = []
     for line in readlines(joinpath(@__DIR__, "..", "README.md"))

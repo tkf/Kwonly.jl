@@ -1,5 +1,9 @@
 module TestSetterMacro
-using Base.Test
+try
+    using Test
+catch
+    using Base.Test
+end
 using Reconstructables: @add_kwonly, @recon
 
 struct A

@@ -1,5 +1,9 @@
 module TestAddKwonly
-using Base.Test
+try
+    using Test
+catch
+    using Base.Test
+end
 using Reconstructables: @add_kwonly, UndefKeywordError
 
 @add_kwonly function f(a, b; c=3, d=4)
@@ -16,19 +20,22 @@ end
 @add_kwonly h(; c=3, d=4) = (c, d)
 @test h() == (3, 4)
 
-@add_kwonly with_kwargs(a; b=2, kwargs...) = (a, b, kwargs)
-@test with_kwargs(a=10, x=20) == (10, 2, [(:x, 20)])
+@add_kwonly with_kwargs(a; b=2, kwargs...) =
+    (a, b, Any[(k, v) for (k, v) in kwargs])
+@test with_kwargs(a=10, x=20) == (10, 2, Any[(:x, 20)])
 
+
+not_LoadError(x::LoadError) = x.error
+not_LoadError(x) = x
 
 macro test_error(testee, tester)
     quote
-        tester = $(esc(tester))
-        err = try
-            $(esc(testee))
-        catch err
-            err
-        end
-        tester(err)
+        ($(esc(tester)))(
+            try
+                $(esc(testee))
+            catch err
+               $not_LoadError(err)
+            end)
     end
 end
 
