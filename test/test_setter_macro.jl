@@ -102,6 +102,8 @@ invalid_expression_list = statements(quote
     old{:spam}.x.x.x = 10
     old.x{:spam}.x.x = 10
     old.x.x.x{:spam} = 10
+    f(x) = 10
+    old.f(x) = 10
 end)
 append!(invalid_expression_list,
         map(ex -> quote $ex end, invalid_expression_list))
