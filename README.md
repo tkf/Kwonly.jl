@@ -10,7 +10,9 @@ immutable structs in Julia.  For example, using `@recon` macro, you
 can reconstruct a new struct where the nested field `.x.y.z` is
 modified from the one in `old` by:
 
-    new = @recon old.x.y.z = 3
+  ```julia
+  new = @recon old.x.y.z = 3
+  ```
 
 It works even when `old`, `x` and `y` are all immutable, provided that
 their constructor have keyword-only version (see below).
@@ -33,8 +35,10 @@ end
 
 This macro add keyword-only constructor by expands `A(x) = new(x)` into:
 
-    A(x, y) = new(x, y)                                      # original
-    A(; x = throw(UndefKeywordError(:x)), y=2) = new(x, y)   # keyword-only
+  ```julia
+  A(x, y) = new(x, y)                                      # original
+  A(; x = throw(UndefKeywordError(:x)), y=2) = new(x, y)   # keyword-only
+  ```
 
 That is to say, the struct `A` can be constructed only by keyword
 arguments:
