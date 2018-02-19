@@ -65,6 +65,7 @@ end
 ndots(ex::Expr) = ndots(Val{ex.head}, ex)
 ndots(::Type{Val{:.}}, ex) = 1 + ndots(ex.args[1])
 ndots(::Symbol) = 0
+ndots(::Type{<:Val}, ex) = error("Unsupported expression: $ex")
 
 function vassign(vlhs::Vector, vrhs::Vector)
     maxdots = maximum(map(ndots, vlhs))

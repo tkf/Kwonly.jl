@@ -5,6 +5,7 @@ catch
     using Base.Test
 end
 using Reconstructables: @add_kwonly, UndefKeywordError
+include("utils.jl")
 
 @add_kwonly function f(a, b; c=3, d=4)
   (a, b, c, d)
@@ -24,20 +25,6 @@ end
     (a, b, Any[(k, v) for (k, v) in kwargs])
 @test with_kwargs(a=10, x=20) == (10, 2, Any[(:x, 20)])
 
-
-not_LoadError(x::LoadError) = x.error
-not_LoadError(x) = x
-
-macro test_error(testee, tester)
-    quote
-        ($(esc(tester)))(
-            try
-                $(esc(testee))
-            catch err
-               $not_LoadError(err)
-            end)
-    end
-end
 
 @test_error begin
     @eval @add_kwonly i(c=3, d=4) = (c, d)

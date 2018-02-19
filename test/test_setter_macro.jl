@@ -5,6 +5,7 @@ catch
     using Base.Test
 end
 using Reconstructables: @add_kwonly, @recon
+include("utils.jl")
 
 struct A
     x
@@ -65,4 +66,25 @@ end
 @test new.x.x.x == 10
 @test new.x.y.y == 20
 """
+
+invalid_expressions = quote
+    old{:spam}.x.x.x = 10
+    old.x{:spam}.x.x = 10
+    old.x.x.x{:spam} = 10
+end
+invalid_expression_list = filter(
+    ex -> (ex isa Expr && ex.head != :line),
+    invalid_expressions.args)
+append!(invalid_expression_list,
+        map(ex -> quote $ex end, invalid_expression_list))
+
+for ex in invalid_expression_list
+    @test_error begin
+        @eval @recon $ex
+    end (err) -> begin
+        @test err isa ErrorException
+        @test contains(err.msg, "Unsupported expression:")
+    end
+end
+
 end
