@@ -4,7 +4,8 @@ try
 catch
     using Base.Test
 end
-using Reconstructables: Reconstructables, @add_kwonly, add_kwonly
+using Reconstructables: @add_kwonly, add_kwonly
+import Reconstructables
 include("utils.jl")
 
 @add_kwonly function f(a, b; c=3, d=4)
