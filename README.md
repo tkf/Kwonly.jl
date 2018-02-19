@@ -146,6 +146,17 @@ c2 = @recon c1.b.x = 2.0
 ```
 
 
+## Limitation
+
+Since keyword arguments in the constructor break type inference (in
+Julia 0.6 and 0.7 as of writing), `recon` has the same limitation:
+return type cannot be inferred.  In turn, it also applies to `@recon`
+since it is just a syntactic sugar.  (Note that it may be the case
+that the return type of `recon` cannot be inferred even though type
+inference works with the constructors with keyword arguments.  It's
+hard to know until it's solved in Julia language.)
+
+
 [travis-img]: https://travis-ci.org/tkf/Reconstructables.jl.svg?branch=master
 [travis-url]: https://travis-ci.org/tkf/Reconstructables.jl
 [coveralls-img]: https://coveralls.io/repos/tkf/Reconstructables.jl/badge.svg?branch=master&service=github
