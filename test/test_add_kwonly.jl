@@ -4,7 +4,7 @@ try
 catch
     using Base.Test
 end
-using Reconstructables: @add_kwonly, UndefKeywordError
+using Reconstructables: @add_kwonly, add_kwonly, UndefKeywordError
 include("utils.jl")
 
 @add_kwonly function f(a, b; c=3, d=4)
@@ -54,6 +54,14 @@ end (err) -> begin
     @test err isa ErrorException
     @test contains(err.msg,
                    "add_only does not work with expression if")
+end
+
+@test_error begin
+    add_kwonly(:(f(x, f(x)) = x))
+end (err) -> begin
+    @test err isa ErrorException
+    @test contains(err.msg,
+                   "Not expecting to see: f(x)")
 end
 
 let io = IOBuffer()
