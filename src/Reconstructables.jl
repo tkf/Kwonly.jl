@@ -1,3 +1,4 @@
+__precompile__()
 module Reconstructables
 
 include("add_kwonly.jl")
