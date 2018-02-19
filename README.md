@@ -33,8 +33,8 @@ end
 
 This macro add keyword-only constructor by expands `A(x) = new(x)` into:
 
-    A(x, y) = new(x, y)                                # original
-    A(; x = error("No argument x"), y=2) = new(x, y)   # keyword-only
+    A(x, y) = new(x, y)                                      # original
+    A(; x = throw(UndefKeywordError(:x)), y=2) = new(x, y)   # keyword-only
 
 That is to say, the struct `A` can be constructed only by keyword
 arguments:

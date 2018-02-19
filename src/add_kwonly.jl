@@ -1,3 +1,15 @@
+try
+    using Core: UndefKeywordError
+catch
+    # UndefKeywordError added in: RFC: required keyword arguments
+    # https://github.com/JuliaLang/julia/pull/25830/files
+    struct UndefKeywordError <: Exception
+        var::Symbol
+    end
+    showerror(io::IO, ex::UndefKeywordError) =
+        print(io, "UndefKeywordError: keyword argument $(ex.var) not assigned")
+end
+
 """
     @add_kwonly function_definition
 
@@ -84,7 +96,7 @@ function add_kwonly(::Type{Val{:call}}, default_call::Expr)
     end
 
     kwonly_kwargs = Expr(:parameters, [
-        Expr(:kw, pa, :(error($("No argument $pa"))))
+        Expr(:kw, pa, :(throw(UndefKeywordError($(QuoteNode(pa))))))
         for pa in required
     ]..., optional..., default_kwargs...)
     kwonly_call = Expr(:call, funcname, kwonly_kwargs)

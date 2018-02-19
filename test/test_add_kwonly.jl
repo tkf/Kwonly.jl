@@ -1,13 +1,13 @@
 module TestAddKwonly
 using Base.Test
-using Reconstructables: @add_kwonly, add_kwonly
+using Reconstructables: @add_kwonly, add_kwonly, UndefKeywordError
 
 @add_kwonly function f(a, b; c=3, d=4)
   (a, b, c, d)
 end
 @test f(1, 2) == (1, 2, 3, 4)
 @test f(a=1, b=2) == (1, 2, 3, 4)
-@test_throws ErrorException f()
+@test_throws UndefKeywordError f()
 
 @add_kwonly g(a, b; c=3, d=4) = (a, b, c, d)
 @test g(1, 2) == (1, 2, 3, 4)
