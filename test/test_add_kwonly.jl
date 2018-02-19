@@ -21,6 +21,12 @@ end
 @add_kwonly h(; c=3, d=4) = (c, d)
 @test h() == (3, 4)
 
+@add_kwonly with_type(a::A; b::B=2) where {A, B} = (a, A, b, B)
+@test with_type(a=10, b=10.0) == (10, Int, 10.0, Float64)
+
+@add_kwonly typed_kwonly(; a::A=1, b::B=2) where {A, B} = (a, A, b, B)
+@test typed_kwonly(a=10, b=10.0) == (10, Int, 10.0, Float64)
+
 @add_kwonly with_kwargs(a; b=2, kwargs...) =
     (a, b, Any[(k, v) for (k, v) in kwargs])
 @test with_kwargs(a=10, x=20) == (10, 2, Any[(:x, 20)])
