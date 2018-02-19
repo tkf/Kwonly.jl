@@ -115,4 +115,14 @@ for ex in invalid_expression_list
     end
 end
 
+@test_error begin
+    @eval @recon begin
+        old.x = 1
+        new.x = 2
+    end
+end (err) -> begin
+    @test err isa ErrorException
+    @test contains(err.msg, "Trying to modify multiple structs:")
+end
+
 end
