@@ -1,8 +1,8 @@
 # Reconstructables.jl --- Tools for easy "modification" of nested immutable structs
 
-[![Build Status][travis-img]](travis-url)
-[![Coverage Status][coveralls-img]](coveralls-url)
-[![codecov.io][codecov-img]](codecov-url)
+[![Build Status][travis-img]][travis-url]
+[![Coverage Status][coveralls-img]][coveralls-url]
+[![codecov.io][codecov-img]][codecov-url]
 
 
 Reconstructables.jl provides helper functions and macros to work with
