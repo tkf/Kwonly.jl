@@ -25,6 +25,12 @@ end
     (a, b, Any[(k, v) for (k, v) in kwargs])
 @test with_kwargs(a=10, x=20) == (10, 2, Any[(:x, 20)])
 
+if VERSION >= v"0.7-"
+    @eval @add_kwonly required_kwargs(a; b, c=3) = (a, b, c)
+    @test required_kwargs(1, b=2) == (1, 2, 3)
+    @test required_kwargs(a=1, b=2) == (1, 2, 3)
+end
+
 
 @test_error begin
     @eval @add_kwonly i(c=3, d=4) = (c, d)
