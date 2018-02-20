@@ -17,6 +17,14 @@ from the one in `old` by:
 It works even when `old`, `x` and `y` are all immutable, provided that
 their constructor have keyword-only version (see below).
 
+Note that Julia
+[may support it as a language feature](https://github.com/JuliaLang/julia/pull/21912)
+eventually, probably
+[sometime after 1.0 release (but before 2.0?)](https://github.com/JuliaLang/julia/issues/11902).
+If that happens, `@recon` will just be a thin wrapper around such
+feature (hopefully).  But you can start leveraging immutability right
+now!  (but see [Limitation](#limitation))
+
 
 ## Basic Usage
 
@@ -155,6 +163,13 @@ since it is just a syntactic sugar.  (Note that it may be the case
 that the return type of `recon` cannot be inferred even though type
 inference works with the constructors with keyword arguments.  It's
 hard to know until it's solved in Julia language.)
+
+
+## See also
+
+- [Julep: More support for working with immutables · Issue #11902 · JuliaLang/julia](https://github.com/JuliaLang/julia/issues/11902)
+  - [WIP: Make mutating immutables easier by Keno · Pull Request #21912 · JuliaLang/julia](https://github.com/JuliaLang/julia/pull/21912)
+- [JuliaCollections/FunctionalCollections.jl: Functional and persistent data structures for Julia](https://github.com/JuliaCollections/FunctionalCollections.jl)
 
 
 [travis-img]: https://travis-ci.org/tkf/Reconstructables.jl.svg?branch=master
