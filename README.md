@@ -23,7 +23,7 @@ eventually, probably
 [sometime after 1.0 release (but before 2.0?)](https://github.com/JuliaLang/julia/issues/11902).
 If that happens, `@recon` will just be a thin wrapper around such
 feature (hopefully).  But you can start leveraging immutability right
-now!  (but see [Limitation](#limitation))
+now!  (but see [Limitations](#limitations))
 
 
 ## Basic Usage
@@ -154,7 +154,9 @@ c2 = @recon c1.b.x = 2.0
 ```
 
 
-## Limitation
+## Limitations
+
+### Type instability
 
 Since keyword arguments in the constructor break type inference (in
 Julia 0.6 and 0.7 as of writing), `recon` has the same limitation:
@@ -163,6 +165,12 @@ since it is just a syntactic sugar.  (Note that it may be the case
 that the return type of `recon` cannot be inferred even though type
 inference works with the constructors with keyword arguments.  It's
 hard to know until it's solved in Julia language.)
+
+### Divergence from Julia assignment semantics
+
+For mutable objects, `new` in `new = (old.x.y.z = 3)` is `3`.
+However, `@recon old.x.y.z = 3` returns a new object of type
+`typeof(old)`.
 
 
 ## See also
