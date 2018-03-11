@@ -26,9 +26,9 @@ matrix:
 
 ## uncomment the following lines to override the default test script
 #script:
-#  - julia -e 'Pkg.clone(pwd()); Pkg.build("Reconstructables"); Pkg.test("Reconstructables"; coverage=true)'
+#  - julia -e 'Pkg.clone(pwd()); Pkg.build("Kwonly"); Pkg.test("Kwonly"; coverage=true)'
 after_success:
   # push coverage results to Coveralls
-  - julia -e 'cd(Pkg.dir("Reconstructables")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
+  - julia -e 'cd(Pkg.dir("Kwonly")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
   # push coverage results to Codecov
-  - julia -e 'cd(Pkg.dir("Reconstructables")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  - julia -e 'cd(Pkg.dir("Kwonly")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'

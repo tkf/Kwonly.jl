@@ -19,8 +19,6 @@ end
 
 @testset "$file" for file in [
         "test_add_kwonly.jl",
-        "test_reconstructor.jl",
-        "test_setter_macro.jl",
         "README.jl",
         ]
     @time include(file)

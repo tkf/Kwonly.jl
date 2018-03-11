@@ -1,3 +1,6 @@
+module Kwonly
+export @add_kwonly
+
 try
     using Core: UndefKeywordError
 catch
@@ -104,3 +107,5 @@ function add_kwonly(::Type{Val{:call}}, default_call::Expr)
 
     return kwonly_call
 end
+
+end  # module
