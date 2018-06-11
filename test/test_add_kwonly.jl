@@ -1,9 +1,12 @@
 module TestAddKwonly
-try
-    using Test
-catch
+
+@static if VERSION < v"0.7-"
     using Base.Test
+    occursin(needle, haystack) = contains(haystack, needle)
+else
+    using Test
 end
+
 using Kwonly: @add_kwonly, add_kwonly
 import Kwonly
 include("utils.jl")
@@ -43,8 +46,8 @@ end
     @eval @add_kwonly i(c=3, d=4) = (c, d)
 end (err) -> begin
     @test err isa ErrorException
-    @test contains(err.msg,
-                   "At least one positional mandatory argument is required")
+    @test occursin("At least one positional mandatory argument is required",
+                   err.msg)
 end
 
 @test_error begin
@@ -53,22 +56,23 @@ end
     end
 end (err) -> begin
     @test err isa ErrorException
-    @test contains(err.msg,
-                   "add_only does not work with expression if")
+    @test occursin("add_only does not work with expression if",
+                   err.msg)
 end
 
 @test_error begin
     add_kwonly(:(f(x, f(x)) = x))
 end (err) -> begin
     @test err isa ErrorException
-    @test contains(err.msg,
-                   "Not expecting to see: f(x)")
+    @test occursin("Not expecting to see: f(x)",
+                   err.msg)
 end
 
 let io = IOBuffer()
     showerror(io, Kwonly.UndefKeywordError(:X))
     msg = String(take!(copy(io)))
-    @test contains(msg, "UndefKeywordError: keyword argument X not assigned")
+    @test occursin("UndefKeywordError: keyword argument X not assigned",
+                   msg)
 end
 
 end
