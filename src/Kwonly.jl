@@ -27,7 +27,7 @@ expands to:
     function f(x; y=1)
         ...
     end
-    function f(; x = error("No argument x"), y=1)
+    function f(; x = throw(UndefKeywordError(:x)), y=1)
         ...
     end
 """
