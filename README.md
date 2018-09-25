@@ -28,7 +28,8 @@ new(x, y)` into:
   A(; x = throw(UndefKeywordError(:x)), y=2) = new(x, y)   # keyword-only
   ```
 
-So, the struct `A` can be constructed only by keyword arguments:
+So, the struct `A` can also be constructed by using only keyword
+arguments:
 
 ```julia
 @test A(1) == A(x=1)
