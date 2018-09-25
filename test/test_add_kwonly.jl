@@ -56,7 +56,7 @@ end
     end
 end (err) -> begin
     @test err isa ErrorException
-    @test occursin("add_only does not work with expression if",
+    @test occursin("add_kwonly does not work with expression if",
                    err.msg)
 end
 

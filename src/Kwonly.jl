@@ -38,7 +38,7 @@ end
 add_kwonly(ex::Expr) = add_kwonly(Val{ex.head}, ex)
 
 function add_kwonly(::Type{<: Val}, ex)
-    error("add_only does not work with expression $(ex.head)")
+    error("add_kwonly does not work with expression $(ex.head)")
 end
 
 function add_kwonly(::Union{Type{Val{:function}},
